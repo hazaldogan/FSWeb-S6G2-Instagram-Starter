@@ -19,6 +19,7 @@ const App = () => {
   const [gonderiler, setGonderiler] = useState(sahteVeri);
   // Artık sahteVeri'ye ihtiyacınız olmayacak.
   // Arama çubuğunun çalışması için , arama kriterini tutacak başka bir state'e ihtiyacımız olacak.
+  const [aramaKriteri, setAramaKriteri] = useState("");
 
   const gonderiyiBegen = (gonderiID) => {
     console.log(gonderiID);
@@ -44,10 +45,22 @@ const App = () => {
     setGonderiler(updateGonderiler);
   };
 
+  const aramaHandler = (val) => {
+    setAramaKriteri(val);
+    if (val === "") {
+      setGonderiler(sahteVeri);
+    } else {
+      console.log("test filtre");
+      const filtered = gonderiler.filter((g) => g.username.includes(val));
+      setGonderiler(filtered);
+    }
+  };
+
   return (
     <div className="App">
       {/* Yukarıdaki metni projeye başladığınızda silin*/}
       {/* AramaÇubuğu ve Gönderiler'i render etmesi için buraya ekleyin */}
+      <AramaCubugu aramaKriteri={aramaKriteri} aramaHandler={aramaHandler} />
       <Gonderiler
         gonderilerProp={gonderiler}
         gonderiyiBegenFnProp={gonderiyiBegen}
